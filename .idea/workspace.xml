@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d8833cc-7a9b-4a85-a2e5-1e3941725045" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/aws/cloudformation/csye6225-aws-cf-create-lambda.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/infrastructure/aws/cloudformation/csye6225-aws-cf-create-lambda.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/infrastructure/aws/cloudformation/csye6225-lambda-aws-cf-cicd.json" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/aws/cloudformation/csye6225-lambda-aws-cf-cicd.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infrastructure/aws/cloudformation/csye6225-lambda-aws-cf-create-cicd-stack.sh" beforeDir="false" afterPath="$PROJECT_DIR$/infrastructure/aws/cloudformation/csye6225-lambda-aws-cf-create-cicd-stack.sh" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,11 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/infrastructure/aws/cloudformation/csye6225-lambda-aws-cf-cicd.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="1" selection-start-column="1" selection-end-column="1" />
+            <state relative-caret-position="651">
+              <caret line="265" selection-start-line="265" selection-end-line="265" />
             </state>
           </provider>
         </entry>
@@ -34,11 +30,11 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/infrastructure/aws/cloudformation/csye6225-lambda-aws-cf-create-cicd-stack.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="32" selection-start-line="32" selection-end-line="32" />
+            <state>
+              <caret lean-forward="true" />
             </state>
           </provider>
         </entry>
@@ -53,8 +49,8 @@
       <list>
         <option value="$PROJECT_DIR$/infrastructure/aws/cloudformation/csye6225-lamda-aws-cf-cicd.json" />
         <option value="$PROJECT_DIR$/infrastructure/aws/cloudformation/csye6225-lamda-aws-cf-create-cicd-stack.sh" />
-        <option value="$PROJECT_DIR$/infrastructure/aws/cloudformation/csye6225-lambda-aws-cf-cicd.json" />
         <option value="$PROJECT_DIR$/infrastructure/aws/cloudformation/csye6225-lambda-aws-cf-create-cicd-stack.sh" />
+        <option value="$PROJECT_DIR$/infrastructure/aws/cloudformation/csye6225-lambda-aws-cf-cicd.json" />
       </list>
     </option>
   </component>
@@ -143,12 +139,12 @@
       <option name="presentableId" value="Default" />
       <updated>1564615599578</updated>
       <workItem from="1564615602473" duration="3344000" />
-      <workItem from="1564701681132" duration="647000" />
+      <workItem from="1564701681132" duration="895000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3991000" />
+    <option name="totallyTimeSpent" value="4239000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="910" extended-state="6" />
@@ -191,17 +187,17 @@
     <entry file="file://$PROJECT_DIR$/infrastructure/aws/cloudformation/csye6225-lambda-aws-cf-terminate-cicd-stack.sh">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/infrastructure/aws/cloudformation/csye6225-lambda-aws-cf-cicd.json">
+    <entry file="file://$PROJECT_DIR$/infrastructure/aws/cloudformation/csye6225-lambda-aws-cf-create-cicd-stack.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="1" selection-start-column="1" selection-end-column="1" />
+          <caret lean-forward="true" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/infrastructure/aws/cloudformation/csye6225-lambda-aws-cf-create-cicd-stack.sh">
+    <entry file="file://$PROJECT_DIR$/infrastructure/aws/cloudformation/csye6225-lambda-aws-cf-cicd.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" selection-start-line="32" selection-end-line="32" />
+        <state relative-caret-position="651">
+          <caret line="265" selection-start-line="265" selection-end-line="265" />
         </state>
       </provider>
     </entry>
