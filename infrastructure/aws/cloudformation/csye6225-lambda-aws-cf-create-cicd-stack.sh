@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 read -p 'Enter stack name: ' STACK_NAME
 echo $STACK_NAME
 
@@ -29,3 +30,4 @@ if [ $? -ne 0 ]; then
 else
     echo "Stack ${STACK_NAME} created successfully!"
 fi
+
