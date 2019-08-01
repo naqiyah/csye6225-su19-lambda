@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 read -p 'Enter stack name: ' STACK_NAME
 echo $STACK_NAME
 
