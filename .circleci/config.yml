@@ -33,7 +33,7 @@ jobs:
             echo "Hello the current build number is ${CIRCLE_BUILD_NUM}"
             pwd
             mkdir -p email_artifact
-            mv /home/circleci/csye6225-su19-lambda/LambdaApp/target/LambdaApp-1.0-SNAPSHOT.jar email_artifact/
+            mv ./csye6225-su19-lambda/LambdaApp/target/LambdaApp-1.0-SNAPSHOT.jar email_artifact/
             cd email_artifact
             ls -al
             pwd
