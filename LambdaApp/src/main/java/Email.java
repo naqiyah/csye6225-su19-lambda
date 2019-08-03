@@ -83,6 +83,7 @@ public class Email implements RequestHandler<SNSEvent,String> {
             context.getLogger().log(ex.getStackTrace()[ex.getStackTrace().length -1].getFileName());
 
         }
+        //Returning null
         return null;
     }
 }
