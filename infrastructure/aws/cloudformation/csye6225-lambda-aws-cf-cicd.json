@@ -1,0 +1,205 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Cloud formation script for application",
+    "Parameters": {
+      "BucketName": {
+        "Type": "String",
+        "Description": "Accepts the bucket details"
+      },
+      "WebAppBucket": {
+        "Type": "String",
+        "Description": "Accepts the web app bucket details"
+      },
+      "MyStacksRegion": {
+        "Description": "Name AWS Region",
+        "Type": "String",
+        "Default": "us-east-1"
+      },
+      "SNSNAME":{
+        "Default":"reset_password",
+        "Description": "SNS ARN for test",
+        "Type": "String"
+    }},
+    "Resources": {
+        "CircleCILambdaUploadToS3": {
+            "Type": "AWS::IAM::ManagedPolicy",
+            "Properties": {
+                "ManagedPolicyName" : "CircleCI-Lambda-Upload-To-S3",
+                "Description" : "Upload to S3",
+               "PolicyDocument": {
+                  "Version" : "2012-10-17",
+                  "Statement": [ {
+                     "Effect": "Allow",
+                     "Action": "s3:Put*",
+                     "Resource": {"Fn::Join" : ["",["arn:aws:s3:::", {"Ref" : "BucketName"}, "*/*"]]}
+                  } ]
+               },
+               "Users" : ["circleci"]
+            }
+        },
+        "CodeDeploylambdaS3":{
+            "Type": "AWS::IAM::ManagedPolicy",
+            "Properties": {
+                "ManagedPolicyName": "CodeDeploy-lambda-S3",
+                "PolicyDocument": {
+                    "Version" : "2012-10-17",
+                    "Statement": [ {
+                        "Effect": "Allow",
+                        "Action": ["s3:Get*", "s3:List*"],
+                        "Resource": {"Fn::Join" : ["",["arn:aws:s3:::", {"Ref" : "BucketName"}, "*/*"]]}
+                    }]
+        
+                }
+        
+            }
+        },
+        "LambdaAccessPolicy":{
+            "Type":"AWS::IAM::Policy",
+            "Properties":{
+            "PolicyName":"AWSLambdaAccess",
+            "PolicyDocument":{
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Effect": "Allow",
+                        "Action": [
+                            "cloudformation:DescribeChangeSet",
+                            "cloudformation:DescribeStackResources",
+                            "cloudformation:DescribeStacks",
+                            "cloudformation:GetTemplate",
+                            "cloudformation:ListStackResources",
+                            "cloudwatch:*",
+                            "cognito-identity:ListIdentityPools",
+                            "cognito-sync:GetCognitoEvents",
+                            "cognito-sync:SetCognitoEvents",
+                            "dynamodb:*",
+                            "ec2:DescribeSecurityGroups",
+                            "ec2:DescribeSubnets",
+                            "ec2:DescribeVpcs",
+                            "events:*",
+                            "iam:GetPolicy",
+                            "iam:GetPolicyVersion",
+                            "iam:GetRole",
+                            "iam:GetRolePolicy",
+                            "iam:ListAttachedRolePolicies",
+                            "iam:ListRolePolicies",
+                            "iam:ListRoles",
+                            "iam:PassRole",
+                            "iot:AttachPrincipalPolicy",
+                            "iot:AttachThingPrincipal",
+                            "iot:CreateKeysAndCertificate",
+                            "iot:CreatePolicy",
+                            "iot:CreateThing",
+                            "iot:CreateTopicRule",
+                            "iot:DescribeEndpoint",
+                            "iot:GetTopicRule",
+                            "iot:ListPolicies",
+                            "iot:ListThings",
+                            "iot:ListTopicRules",
+                            "iot:ReplaceTopicRule",
+                            "kinesis:DescribeStream",
+                            "kinesis:ListStreams",
+                            "kinesis:PutRecord",
+                            "kms:ListAliases",
+                            "lambda:*",
+                            "logs:*",
+                            "s3:*",
+                            "sns:ListSubscriptions",
+                            "sns:ListSubscriptionsByTopic",
+                            "sns:ListTopics",
+                            "sns:Publish",
+                            "sns:Subscribe",
+                            "sns:Unsubscribe",
+                            "sqs:ListQueues",
+                            "sqs:SendMessage",
+                            "tag:GetResources",
+                            "xray:PutTelemetryRecords",
+                            "xray:PutTraceSegments"
+                        ],
+                        "Resource": {"Fn::Join" : ["",["arn:aws:s3:::", {"Ref" : "BucketName"}, "*/*"]]}
+                    }
+                ]
+            
+            },
+            "Users":[
+                "circleci"
+            ]
+            }
+        },
+        "snsIAMRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName" : "snsIAMRole",
+                "AssumeRolePolicyDocument": {
+                    "Version" : "2012-10-17",
+                    "Statement": [ {
+                        "Effect": "Allow",
+                        "Principal": {
+                            "Service": [ "ssm.amazonaws.com" ]
+                        },  
+                        "Action": [ "sts:AssumeRole" ]
+                    } ]
+                },
+                "Path": "/",
+                "Policies": [ {
+                    "PolicyName": "snsFullAccess",
+                    "PolicyDocument": {
+                        "Version": "2012-10-17",
+                        "Statement": [
+                        {
+                            "Action": ["sns:*"],
+                            "Effect": "Allow",
+                            "Resource": "*"
+                        }]
+                    }
+                }]
+            }
+        },
+        "lambdaExecutionPolicy":{
+            "Type": "AWS::IAM::ManagedPolicy",
+            "Properties": {
+                "ManagedPolicyName": "LambdaExecutionPolicy",
+                "PolicyDocument": {
+                    "Version" : "2012-10-17",
+                    "Statement": [ {
+                        "Effect": "Allow",
+                        "Action": "logs:CreateLogGroup",
+                        "Resource": "arn:aws:logs:us-east-1:*"
+                    },
+                    {
+                    "Effect": "Allow",
+                    "Action": ["logs:CreateLogStream",
+                                    "logs:PutLogEvents"],
+                            "Resource": "arn:aws:logs:us-east-1:*:log-group:/aws/lambda/myLambda:*"
+                    }
+                    ]
+                }
+                                
+            }
+        },
+        "lambdaIAMRole": {
+            "Type": "AWS::IAM::Role",
+            "DependsOn" : "lambdaExecutionPolicy",
+            "Properties": {
+                "RoleName" : "lambdaIAMRole",
+                "AssumeRolePolicyDocument": {
+                    "Version" : "2012-10-17",
+                    "Statement": [ {
+                        "Effect": "Allow",
+                        "Principal": {
+                            "Service": [ "lambda.amazonaws.com" ]
+                        },
+                        "Action": [ "sts:AssumeRole" ]
+                    } ]
+                },
+                "Path": "/",
+                "ManagedPolicyArns": [
+                    {"Ref":"lambdaExecutionPolicy"},
+                    "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess", 
+                    "arn:aws:iam::aws:policy/AmazonSESFullAccess"
+                ]  
+            }
+        }
+    }
+  
+}

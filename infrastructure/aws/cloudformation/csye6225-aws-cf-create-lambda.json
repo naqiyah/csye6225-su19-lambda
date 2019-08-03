@@ -1,0 +1,90 @@
+{
+    "AWSTemplateFormatVersion" : "2010-09-09",
+ 
+    "Parameters" : {
+         "myBucketName":{
+           
+            "Description": "S3 bucket name",
+            "Type": "String"
+        },
+         "SNSNAME":{
+            "Default":"reset_password",
+            "Description": "SNS ARN for test",
+            "Type": "String"
+        
+        },
+        "domainName":{
+            "Description": "Domain Name",
+            "Type": "String"
+        
+        },
+        "functionName":{
+            "Description": "Name of Lambda Function",
+            "Type": "String"
+        },
+		"lambdaIAMRole":{
+			"Description": "Lambda IAM Role",
+            "Type": "String"
+		}
+    },
+    "Resources" : {   
+        "ResetPasswordLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+                "FunctionName":{
+                    "Ref":"functionName"
+                },
+                "Handler" : "Email::handleRequest",
+                "Role": {
+					"Ref":"lambdaIAMRole"
+				},
+                "Code": {
+                    "S3Bucket": { "Ref": "myBucketName" },
+                    "S3Key": "LambdaApp-1.0-SNAPSHOT.jar"
+                },
+                "Description" : "lambda to host webapp",
+                "Environment" : {
+                    "Variables": {
+                        "DOMAIN_NAME":{
+                            "Fn::Join":["",["http://",{"Ref":"domainName"}]]
+                            }, 
+                            "FROM_EMAIL":{
+                                "Fn::Join":["",["no-reply@",{"Ref":"domainName"}]]
+                                }, 
+                                "TABLENAME":"csye6225", "TTL":"15"
+                                } 
+                            },
+                "Runtime": "java8",
+                "Timeout": 30,
+                "MemorySize":512
+            }
+        },
+        "ResetPasswordTopic":{
+            "Type" : "AWS::SNS::Topic",
+            "DependsOn" : "ResetPasswordLambdaFunction",
+            "Properties" : {
+                "TopicName" : {"Ref":"SNSNAME"},
+                "Subscription":[{"Endpoint":{"Fn::GetAtt":[
+                    "ResetPasswordLambdaFunction","Arn"
+                ]},"Protocol":"lambda"
+                }],
+                "DisplayName":"Reset"
+            }
+
+        },
+        "LambdaInvokePermission": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName" : {
+                "Fn::GetAtt": [
+                    "ResetPasswordLambdaFunction",
+                    "Arn"
+					]
+				},
+              "Principal": "sns.amazonaws.com",
+              "Action": "lambda:InvokeFunction",
+              "SourceArn" : { "Ref" : "ResetPasswordTopic" }
+            }
+        }
+    } 
+}
